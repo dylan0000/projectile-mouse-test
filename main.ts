@@ -2,7 +2,7 @@ namespace SpriteKind {
     export const MyShot = SpriteKind.create()
     export const mouse = SpriteKind.create()
 }
-sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
+sprites.onOverlap(SpriteKind.MyShot, SpriteKind.Enemy, function (sprite, otherSprite) {
     hits += 1
     sprite.destroy()
     if (hits >= 15) {
@@ -29,16 +29,42 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
 `, mySprite, 0, 1)
-    mySprite3.setPosition(mySprite.x, mySprite.y)
     mySprite3.follow(mySprite2, 200)
-    pause(70)
+    pause(100)
     myX = mySprite2.x
     MyY = mySprite2.y
     for (let value of sprites.allOfKind(SpriteKind.mouse)) {
         value.destroy()
     }
     reset_mouse()
+    for (let value of sprites.allOfKind(SpriteKind.Projectile)) {
+        value.setKind(SpriteKind.MyShot)
+    }
 })
+sprites.onOverlap(SpriteKind.Player, SpriteKind.MyShot, function (sprite, otherSprite) {
+    otherSprite.follow(mySprite3, 200)
+})
+/**
+ * Instructions:
+ * 
+ * WASD to move character
+ * 
+ * IJKL to move mouse
+ * 
+ * space bar to fire
+ * 
+ * to copy, change variable names and sprite images
+ * 
+ * pink scribble in the middle is for testing
+ * 
+ * shoot at pink thing 15 times to destroy
+ * 
+ * keep in mind that the second projectile variable (MyShot) is 
+ * 
+ * the variable that will interact with objects, you can rename
+ * 
+ * Projectile variable type does nothing to affect
+ */
 function reset_mouse () {
     mySprite2 = sprites.create(img`
 . . . . . . . . . . . . . . . . 
